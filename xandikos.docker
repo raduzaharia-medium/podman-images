@@ -1,0 +1,11 @@
+FROM alpine:latest
+
+RUN apk update
+RUN apk add python3 python3-dev musl-dev gcc
+RUN python3 -m ensurepip 
+RUN python3 -m pip install --upgrade pip wheel aiohttp-openmetrics
+RUN python3 -m pip install --upgrade xandikos
+
+EXPOSE 8081
+
+CMD /usr/bin/xandikos -d /mnt/storage/radu/personal -p 8081 -l 0.0.0.0
