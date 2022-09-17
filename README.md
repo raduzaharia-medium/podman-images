@@ -4,7 +4,7 @@ This repository has the code for my dockerfiles used in the container tutorial a
 ## Image build commands
 Xandikos: `podman build --file xandikos-server.docker -t xandikos-server` 
 
-Dovecot: `sudo podman build --file dovecot-server.docker --build-arg MAIL_FOLDER=/mnt/storage/radu/personal/mail-archive --build-arg USER_PASSWORD test --UID 1000 -GID 1000 -t dovecot-server`
+Dovecot: `sudo podman build --file dovecot-server.docker --build-arg MAIL_FOLDER=/mnt/storage/radu/personal/mail-archive --build-arg USER_PASSWORD test --build-arg UID 1000 --build-arg GID 1000 -t dovecot-server`
 
 ## Container run commands
 Xandikos: `podman run --name xandikos-server-instance -p 8081:8081 -v /mnt:/mnt xandikos-server:latest` 
