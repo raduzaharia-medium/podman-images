@@ -1,0 +1,21 @@
+FROM alpine:latest
+
+ARG MUSIC_FOLDER
+ARG PHOTOS_FOLDER
+ARG VIDEOS_FOLDER
+
+ARG DLNA_NAME=Network media
+ARG NETWORK=wlan0
+
+RUN apk update
+RUN apk add minidlna
+
+RUN sed -i "s|media_dir=/opt|media_dir=A,$MUSIC_FOLDER\nmedia_dir=P,$PHOTOS_FOLDER\nmedia_dir=V,$VIDEOS_FOLDER |g" /etc/minidlna.conf
+RUN sed -i "s|inotify=yes|inotify=no|g" /etc/minidlna.conf
+RUN sed -i "s|#friendly_name=My DLNA Server|friendly_name=$DLNA_NAME|g" /etc/minidlna.conf
+RUN sed -i "s|#network_interface=eth0|network_interface=$NETWORK|g" /etc/minidlna.conf
+
+EXPOSE 8200/tcp
+EXPOSE 1900/udp
+
+CMD /usr/sbin/minidlnad -d
