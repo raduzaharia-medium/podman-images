@@ -1,0 +1,18 @@
+FROM alpine:latest
+
+ARG MAIL_FOLDER
+ARG USER_PASSWORD=test-password
+ARG UID
+ARG GIDRUN apk update
+
+RUN apk add dovecotRUN sed -i "s|#mail_location = |mail_location = maildir:$MAIL_FOLDER |g" /etc/dovecot/conf.d/10-mail.conf
+
+RUN sed -i "s|#log_path = syslog|log_path = /dev/stderr|g" /etc/dovecot/conf.d/10-logging.conf
+RUN sed -i "s|#auth_debug = no|auth_debug = yes|g" /etc/dovecot/conf.d/10-logging.conf
+
+RUN echo "home-admin:`mkpasswd "$USER_PASSWORD"`:$UID:$GID::::" > /etc/dovecot/users
+
+EXPOSE 143
+EXPOSE 993
+
+CMD /usr/sbin/dovecot -F
