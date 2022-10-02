@@ -5,7 +5,7 @@ ARG PHOTOS_FOLDER
 ARG VIDEOS_FOLDER
 
 ARG DLNA_NAME=Network media
-ARG NETWORK=wlan0
+ARG NETWORK=eth0
 
 RUN apk update
 RUN apk add minidlna
