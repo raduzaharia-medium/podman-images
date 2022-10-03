@@ -1,0 +1,26 @@
+FROM alpine:latest
+ARG SHARED_FOLDER=/mnt/storage
+ARG HOST_NAME=home-server
+
+RUN apk update
+RUN apk add avahi avahi-tools
+
+RUN rm /etc/avahi/services/*
+
+RUN sed -i 's/#host-name=foo/host-name=$HOST_NAME/g' /etc/avahi/avahi-daemon.conf
+RUN sed -i 's/#enable-dbus=yes/enable-dbus=no/g' /etc/avahi/avahi-daemon.conf
+
+RUN echo "<?xml version='1.0' standalone='no'?><!--*-nxml-*--> \
+<!DOCTYPE service-group SYSTEM 'avahi-service.dtd'> \
+<service-group> \
+  <name replace-wildcards='yes'>Network storage</name> \
+  <service> \
+    <type>_nfs._tcp</type> \
+    <port>2049</port> \
+    <txt-record>$SHARED_FOLDER</txt-record> \
+  </service> \
+</service-group>" > /etc/avahi/services/network-storage.service
+
+EXPOSE 5353/udp
+
+CMD /usr/sbin/avahi-daemon
