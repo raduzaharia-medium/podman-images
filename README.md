@@ -1,5 +1,5 @@
 # Container tutorial
-This repository has the code for my dockerfiles used in the container tutorial at [Xandikos](https://raduzaharia.medium.com/lets-create-a-calendar-server-container-with-xandikos-and-podman-1a62c1aedc6a) and at [Dovecot](https://raduzaharia.medium.com/email-server-in-a-jar-the-parametrized-dovecot-podman-container-d999fc565ad0). 
+This repository has the code for my dockerfiles used in the container tutorial at [Xandikos](https://raduzaharia.medium.com/lets-create-a-calendar-server-container-with-xandikos-and-podman-1a62c1aedc6a), [Dovecot](https://raduzaharia.medium.com/email-server-in-a-jar-the-parametrized-dovecot-podman-container-d999fc565ad0), [MiniDLNA](https://raduzaharia.medium.com/media-server-container-minidlna-and-podman-e3a6e07362c8) and [Avahi](https://raduzaharia.medium.com/network-service-discovery-with-an-avahi-container-3dfdce4f1c75). 
 
 ## Image build commands
 Xandikos: `podman build --file xandikos-server.docker -t xandikos-server` 
