@@ -1,0 +1,20 @@
+FROM alpine:latest
+ARG SHARE_PARAMS=rw,insecure,all_squash,no_subtree_check,anonuid=1000,anongid=1000,fsid=0
+ARG MAIN_IP_RANGE=192.168.68.0/24
+ARG VPN_IP_RANGE=192.168.10.0/24
+
+RUN apk update
+RUN apk add nfs-utils
+
+RUN echo "/mnt/storage      $MAIN_IP_RANGE($SHARE_PARAMS) $VPN_IP_RANGE($SHARE_PARAMS)" > /etc/exports
+
+EXPOSE 111 2049 
+
+CMD rpcbind \
+  && exportfs -ra \
+  && rpc.nfsd -V4 -N3 \
+  && rpc.nfsd 0 \
+  && rpc.nfsd -V4 -N3 \
+  && rpc.statd --no-notify \
+  && rpc.mountd -V4 -N3 \  
+  && sleep infinity
