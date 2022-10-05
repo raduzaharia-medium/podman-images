@@ -1,0 +1,12 @@
+FROM alpine:latest
+
+RUN apk update
+RUN apk add curl email
+
+COPY check-ip-change-new.sh /usr/local/bin/check-ip-change.sh
+RUN chmod +x /usr/local/bin/check-ip-change.sh
+
+CMD while true; \
+  do sh /usr/local/bin/check-ip-change.sh; \
+  sleep 3600; \
+  done
